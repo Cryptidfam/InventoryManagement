@@ -18,49 +18,20 @@ namespace InventoryManagement
     /// <summary>
     /// Interaction logic for AddItems.xaml
     /// </summary>
-    public partial class AddItems : Window, INotifyPropertyChanged
+
+    // This should be simplified 
+    public partial class AddItems : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private readonly MainViewModel viewModel;
-
-        private Item _items;
-        public Item Items
-        {
-            get => _items; set
-            {
-                if (_items != value)
-                {
-                    _items = value;
-                    OnPropertyChanged(nameof(Items));
-                }
-            }
-        }
-        public AddItems(MainViewModel viewmodel = null)
+        public AddItems(Item item)
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            DataContext = viewModel;
-            viewModel = viewmodel;
+            DataContext = item;
         }
-        // To do: Add texboxes in AddItems.xaml instead of DataGridTextColumn.
+
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            // Example of adding a new item(replace with your input mechanism!!!)
-             viewModel.AddItem(viewModel.SelectedItem);
-            Close();
-           // viewModel.Items.Add(Items);
+            Close(); // Simply close the window; the MainWindow handles adding the item
         }
-
-        private void UpdateItem_Click(object sender, RoutedEventArgs e)
-        {
-            // This will update an item when something gets changed... Later.
-            // You should probably add a pop up window asking if changes should be made.
-        }
-
     }
+
 }

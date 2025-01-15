@@ -67,7 +67,6 @@
     <Compile Include="AddItems.xaml.cs">
       <DependentUpon>AddItems.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestArea.cs" />
     <Page Include="AddItems.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

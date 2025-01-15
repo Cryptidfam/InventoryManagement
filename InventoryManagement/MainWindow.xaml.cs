@@ -1,5 +1,8 @@
-﻿using System;
+﻿using InventoryManagement.Management;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,29 +21,61 @@ namespace InventoryManagement
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyCollectionChanged
     {
-        private readonly MainViewModel viewmodel;
+        public DataManager dataManager { get; set; }
+        private ObservableCollection<Item> _items;
+        public ObservableCollection<Item> Items
+        {
+            get { return _items; }
+            set
+            {
+                if (_items != value)
+                {
+                    _items.CollectionChanged -= Items_CollectionChanged;
+                    _items = value;
+                    _items.CollectionChanged += Items_CollectionChanged;
+                }
+            }
+        }
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            dataManager.SaveData();
+        }
+        // public Item SelectedItem { get; set; }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public MainWindow()
         {
             InitializeComponent();
-            viewmodel = new MainViewModel();
-            DataContext = viewmodel;
+            // dataManager = DataManager.LoadData();
+            // Load items from JSON and set the DataContext
+            DataContext = this;
         }
+
+        // Currently I am trying to make it so the items actually gets saved.
         private void AddItemWindow_Click(object sender, RoutedEventArgs e)
         {
-            // Create and show the AddItems window, passing the shared ViewModel
-            var addItemWindow = new AddItems(viewmodel);
-            addItemWindow.ShowDialog(); // Opens the window modally
+            // Pass a new item to the AddItems window
+            var newItem = new Item();
+            var addItemWindow = new AddItems(newItem);
+            addItemWindow.ShowDialog();
+
+            // 'Object reference not set to an instance of an object.'
+            if (!Items.Contains(newItem))
+            {
+                Items.Add(newItem); // Add to collection
+                SaveItemsToJson();  // Save to JSON
+            }
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            // Example of removing the selected item
             if (InventoryGrid.SelectedItem is Item selectedItem)
             {
-                viewmodel.RemoveItem(selectedItem.Id);
+                Items.Remove(selectedItem);
+                SaveItemsToJson(); // Save the updated list
             }
             else
             {
@@ -48,6 +83,11 @@ namespace InventoryManagement
             }
         }
 
-
+        // No overload for method 'SaveData' takes 1 arguments
+        private void SaveItemsToJson()
+        {
+            dataManager.SaveData(Items.ToList()); // Save to JSON
+        }
     }
+
 }

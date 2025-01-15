@@ -13,12 +13,11 @@
                   CanUserAddRows="False" 
                   Margin="0,50,0,50">
             <DataGrid.Columns>
-                <!-- Apparently 'UpdateSourceTrigger=PropertyChanged' is good, but I forgot why already -->
-                <DataGridTextColumn Header="ID" Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="150"/>
-                <DataGridTextColumn Header="Category" Binding="{Binding Category, UpdateSourceTrigger=PropertyChanged}" Width="150"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
 

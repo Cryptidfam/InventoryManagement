@@ -9,6 +9,7 @@ namespace InventoryManagement
 {
     public class Item: INotifyPropertyChanged
     {
+        // Unique identifier
         public int Id
         {
             get => _id; set
@@ -19,7 +20,7 @@ namespace InventoryManagement
                     OnPropertyChanged(nameof(Id));
                 }
             }
-        }// Unique identifier
+        }
         private int _id;
         public string Name
         {
