@@ -10,15 +10,8 @@
 //namespace InventoryManagement
 //{
 //    // Acts as the bridge between the XAML UI and the logic.
-//    // Wait, binding exists
-//    public class MainViewModel: INotifyPropertyChanged
+//    public class MainViewModel: BaseViewModel
 //    {        
-//        public event PropertyChangedEventHandler PropertyChanged;
-
-//        protected virtual void OnPropertyChanged(string propertyName)
-//        {
-//            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-//        }
 //        private InventoryManager inventoryManager;
 //        private DataManager dataManager;
 

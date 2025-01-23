@@ -7,40 +7,139 @@ using System.Threading.Tasks;
 using System.Xml;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Windows.Markup;
+using System.Runtime.CompilerServices;
 
 namespace InventoryManagement.Management
 {
-    public class DataManager
+    public class DataManager: INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private string filePath = AppDomain.CurrentDomain.BaseDirectory + "inventory.json"; // Stores inventory data
-        public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
+        #region PropertyChanged
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+
+        private static readonly string filePath = AppDomain.CurrentDomain.BaseDirectory + "AppData.json";
+
+        private ObservableCollection<Item> _items = new ObservableCollection<Item>();
+        public ObservableCollection<Item> Items
+        {
+            get => _items;
+            set
+            {
+                if (_items == value) return;
+
+                if (_items != null)
+                {
+                    _items.CollectionChanged -= Items_CollectionChanged;
+
+                    foreach (var item in _items)
+                    {
+                        item.PropertyChanged -= Items_PropertyChanged;
+                    }
+
+
+                    _items = value;
+
+                    _items.CollectionChanged += Items_CollectionChanged;
+
+                    foreach (var item in _items)
+                    {
+                        item.PropertyChanged += Items_PropertyChanged;
+                    }
+                }
+            }
+        }
+
+        private ObservableCollection<User> _users = new ObservableCollection<User>();
+
+
+
+        public ObservableCollection<User> Users
+        {
+            get => _users;
+            set
+            {
+                if (_users == value) return;
+
+                if (_users != null)
+                {
+                    _users.CollectionChanged -= Users_CollectionChanged;
+
+                    foreach (var user in _users)
+                    {
+                        user.PropertyChanged -= Users_PropertyChanged;
+                    }
+
+
+                    _users = value;
+
+                    _users.CollectionChanged += Users_CollectionChanged;
+
+                    foreach (var user in _users)
+                    {
+                        user.PropertyChanged += Users_PropertyChanged;
+                    }
+                }
+            }
+        }
+
+        private void Users_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SaveData();
+        }
+        private void Items_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SaveData();
+
+        }
+
+        private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SaveData();
+        }
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            SaveData(); // Automatically save whenever items change
+        }
+
+
+
+
         public static DataManager LoadData()
         {
-            string filePath = AppDomain.CurrentDomain.BaseDirectory + "inventory.json"; // Stores inventory data
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            if (!File.Exists(filePath))
+            {
+                return new DataManager();
+            }
+            JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.All,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
                 Formatting = Newtonsoft.Json.Formatting.Indented
             };
-            if (!File.Exists(filePath)) return new DataManager();
-            var json = File.ReadAllText(filePath); // Read file
-            // Converts the JSON string into a List<Item> object, if that fails, create new list
-            return JsonConvert.DeserializeObject<DataManager>(json, serializerSettings);
+            var json = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<DataManager>(json,settings);
         }
 
         public void SaveData()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            JsonSerializerSettings settings =new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                // Prevent an ambiguity error by including Newtonsoft.Json.Formatting explicitly:
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
                 Formatting = Newtonsoft.Json.Formatting.Indented
             };
 
-            var json = JsonConvert.SerializeObject(this, serializerSettings);
-            File.WriteAllText(filePath, json); // Write the JSON string
+            var json = JsonConvert.SerializeObject(this, settings);
+            File.WriteAllText(filePath, json);
         }
     }
 }

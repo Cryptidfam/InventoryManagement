@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace InventoryManagement
 {
-    public class Item: INotifyPropertyChanged
+    public class Item: BaseViewModel
     {
-        // Unique identifier
+        private int _id;
         public int Id
         {
             get => _id; set
@@ -21,7 +21,7 @@ namespace InventoryManagement
                 }
             }
         }
-        private int _id;
+        private string _name;
         public string Name
         {
             get => _name; set
@@ -33,7 +33,7 @@ namespace InventoryManagement
                 }
             }
         }
-        private string _name;
+        private string _category;
         public string Category
         {
             get => _category; set
@@ -45,7 +45,7 @@ namespace InventoryManagement
                 }
             }
         }
-        private string _category;
+        private int _quantity;
         public int Quantity
         {
             get => _quantity; set
@@ -56,9 +56,9 @@ namespace InventoryManagement
                     OnPropertyChanged(nameof(Quantity));
                 }
             }
-        } // Remember that the quantity will change
-        private int _quantity;
-       public decimal Price
+        }
+        private decimal _price;
+        public decimal Price
         {
             get => _price; set
             {
@@ -69,14 +69,7 @@ namespace InventoryManagement
                 }
             }
         }
-        private decimal _price;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
         // public string Description { get; set; } // I'm not sure if I'll be keeping this one
     }
 
