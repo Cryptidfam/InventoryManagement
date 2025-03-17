@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryManagement
+namespace InventoryManagement // It does not match folder structure, but when adding .Items at the end. I get 2 exception errors.
 {
     public class Item: BaseViewModel
     {

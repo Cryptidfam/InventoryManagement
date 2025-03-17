@@ -7,18 +7,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel>
-            <TextBlock Name="UsernameBox" Text="Register" FontSize="18" HorizontalAlignment="Center" Margin="10" />
-            <TextBlock Text="Username"/>
-            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Margin="10" />
-            <!-- Remember: 2 password boxes, 2nd to confirm password-->
-            <TextBlock Text="Password"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="3">
+            <TextBlock Name="RegisterBox" Text="Register" FontSize="18" HorizontalAlignment="Center" Margin="10" />
+            <TextBlock Text="Username" Margin="10 0"/>
+            <TextBox x:Name="UsernameBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Margin="10" />
+            <TextBlock Text="Password" Margin="10 0"/>
             <PasswordBox Name="PasswordBox" Margin="10" />
-            <Button Content="Register" Click="RegisterButton_Click" Margin="10" />
-            <!--<Button Content="Register" Command="{Binding RegisterCommand}" Margin="10" />-->
-            <TextBlock Text="Already have an account?" HorizontalAlignment="Center" Margin="10"/>
-            <Button Content="Login" Command="{Binding LoginCommand}" Margin="10"/>
+            <TextBlock Text="Confirm Password" Margin="10 0"/>
+            <PasswordBox Name="ConfirmPasswordBox" Margin="10" />
+            <ComboBox x:Name="RoleComboBox" Width="120">
+                <ComboBoxItem Content="Admin" Tag="Admin"/>
+                <ComboBoxItem Content="Staff" Tag="Staff"/>
+            </ComboBox>
+            <Button Content="Register" Click="RegisterButton_Click" Margin="40,20,40,10" />
         </StackPanel>
-            
+
     </Grid>
 </Window>

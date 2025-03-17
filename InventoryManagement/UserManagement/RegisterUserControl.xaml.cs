@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace InventoryManagement.UserManagement
 {
@@ -20,7 +8,7 @@ namespace InventoryManagement.UserManagement
     /// </summary>
     public partial class RegisterUserControl : Window
     {
-        App app = (App)Application.Current;
+        readonly App app = (App)Application.Current;
         public RegisterUserControl()
         {
             InitializeComponent();
@@ -30,16 +18,27 @@ namespace InventoryManagement.UserManagement
         {
             string username = UsernameBox.Text;
             string password = PasswordBox.Password;
+            string passwordConfirm = ConfirmPasswordBox.Password;
 
-            // Validate input
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Username and password cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Register user. Jump to 'LoadUserData'
-            bool success = UserDataManager.RegisterUser(username, password, app.data.Users); 
+            if (password != passwordConfirm) 
+            {
+                MessageBox.Show("Passwords don't match.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            UserRole selectedRole = UserRole.Staff; // Default to Staff
+            if (RoleComboBox.SelectedItem is ComboBoxItem selectedItem && selectedItem.Tag.ToString() == "Admin")
+            {
+                selectedRole = UserRole.Admin;
+            }
+
+            bool success = UserDataManager.RegisterUser(username, password, selectedRole, app.UserData.Users); 
             if (success)
             {
                 MessageBox.Show("User registered successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);

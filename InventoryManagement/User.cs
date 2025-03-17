@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace InventoryManagement
 {
+    public enum UserRole 
+    {
+        Admin, Staff
+    }
     public class User: BaseViewModel
     {
         private string _username;
@@ -31,6 +35,17 @@ namespace InventoryManagement
                     OnPropertyChanged(nameof(PasswordHash));
                 }
             }
+        }
+        
+        private UserRole _role { get; set; }
+        public UserRole Role { get => _role; set
+            {
+                if (_role != value)
+                {
+                    _role = value;
+                    OnPropertyChanged(nameof(Role));
+                }
+            } 
         }
     }
 }

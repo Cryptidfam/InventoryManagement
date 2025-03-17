@@ -1,0 +1,52 @@
+To do:
+- Implement different roles with varying levels of access to inventory functions (2 is enough. Admin will have access to user and item list. Staff will only have access to an item list.)
+	- Admin could see which user made what changes and when (Audit Logs & History(optional as of writing this))
+Current: isAdmin and isStaff properties now exist, hiding/showing UI elements dynamically should be possible.
+Fixed issue: The resource "BooleanToVisibilityConverter" could not be resolved. 
+Is it because 'MainWindow' is not a UserControl WPF? Is it because we currently have no admins?
+Fix: "BooleanToVisibilityConverter" is a built-in WPF converter, but it needs to be explicitly declared in the XAML resources before use. Then the currentuser had to be actually initialized.
+Fixed issue: UserRole is not showing in the new DataGrid.
+Fix: Used Role instead of UserRole.
+Not Fixed issue: Now that User roles can be changed—The button to change user role shows only for admins, the only exception is when an admin changes their own role to staff and doesn't log out.
+
+Misc:
+Everything in .json file (where user and item data is) gets serialized before the login window pops up. Maybe it's better if users and items have their own json files.
+When putting a 'break' in the 'SaveData' or 'Items_CollectionChanged' and closing the program before the login window opens—the json data that's not yet loaded straight up evaporates.
+SaveData() runs too early because it's subscribing too early when DataManager is loaded from JSON,
+it causes Users and Items to trigger events before the user interacts.
+The 'MainWindow.xaml' has so much grid it pisses me off. The whole thing looks unpolished (both the code and the UI). Leave this for later.
+___________________
+___________________
+DONE: 
+
+When logging in: Check if user exists, check if password is correct (Question; How do I check if password is correct? Do we just compare it with the username somehow? Wait, the passwords are hashed automatically so I feel like this is where the hurdle might be. Or does it matter? I guess whatever the password is being input gets hashed first before being checked with the original hashed password.)
+
+Add a 'log out' button and a logout method (just close the mainwindow and open the LoginUserControl).
+
+When registering: Have 2 passwordboxes to confirm password.
+When registering and userbox is empty: do not add user/show error message.
+
+When adding items, check if the id that is being added is already taken. Show error if it is already taken.
+---
+When an item is updated in 'MainWindow' and a user logs out before logging back in, the item info in 'DataGrid.Columns' is showing the 'updated' info.
+When closing the program and turning it on again, the item is no longer showing the updated info.
+Issue: ...The event 'DataManager.CollectionChanged' is never used. I recall it being used before. 
+Fix: Assigning a new ObservableCollection<Item> in 'LoadData' method.
+---
+It's probably best to simply remove the AddItems window and put its main method 'AddItem_Click' to the MainWindow (Done, but does not work.)
+What I know:
+When 'AddItems.xaml.cs' uses 'DataContext = app.Data;' instead of '_item = item;' with 'DataContext = _item;' then 
+'if (string.IsNullOrWhiteSpace(_item.Name) ||string.IsNullOrWhiteSpace(_item.Category) || _item.Id <= 0)' is true.
+When 'AddItem_Click' method was moved to MainWindow.xaml.cs, '_item == null' (makes sense, items are not assigned)
+'App.xaml.cs' is supposed to act like a singleton. It loads data from class 'DataManager,' which has a getter and setter for items, 
+plus it does this whole '_items.CollectionChanged -= Items_CollectionChanged;'
+
+Issue: The main issue is that _item in MainWindow.xaml.cs is not properly initialized before AddItem_Click is called. 
+How do I assign items in 'MainWindow.xaml.cs' so the 'AddItem_Click' works? The 'singleton' (App.xaml.cs) is responsible for loading data itself, 
+would it make sense for 'MainWindow.xaml.cs' to have a direct access to 'DataManager' when it's the 'App.xaml.cs' that it already has access to? Probably not. 
+Fix: Just make the 'AddItem_Click' read data from textboxes and create a new item. Then add the item to app.Data.Items. (Make sure that the textboxes have proper x:Name attributes in XAML)
+---
+- Add a search function for items based on name, category, or other attributes(Done).
+	- New issue: Editing item data through the InventoryGrid is now impossible (Max one letter can be typed before the InventoryGrid basically says 'Yep, that's enough!').
+- Check out 'CollectionViewSource'. Currently we have a 'FilteredItems' list to, well, filter. Maybe this will fix the issue above. Update: Yes it did, I am not 100% why.
+- Instead of having buttons for each sorting option—use ComboBox (Done).

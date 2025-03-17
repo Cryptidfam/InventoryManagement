@@ -14,5 +14,13 @@ namespace InventoryManagement.UserManagement
 
         }
 
+        private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (DataContext is LoginViewModel viewModel)
+            {
+                viewModel.Password = ((PasswordBox)sender).Password;
+            }
+        }
+
     }
 }

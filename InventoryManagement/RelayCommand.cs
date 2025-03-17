@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace InventoryManagement
 {
-    public class RelayCommand : ICommand
+
+    public class RelayCommand(Action<object> execute, Predicate<object> canExecute = null) : ICommand
     {
-
-        private Action<object> execute;       // What happens when the command runs
-        private Predicate<object> canExecute; // Whether the command is allowed to run
-
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute; // Optional? Somehow?
-        }
-
-        public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
-        public void Execute(object parameter) => execute(parameter);
+        private readonly Action<object> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
 
         public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter) => canExecute == null || canExecute(parameter);
+
+        public void Execute(object parameter) => _execute(parameter);
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
+
 
 }

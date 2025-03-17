@@ -1,4 +1,5 @@
 ﻿using InventoryManagement.Management;
+using InventoryManagement.UserManagement;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,19 +19,13 @@ namespace InventoryManagement
     /// </summary>
     public partial class App : Application
     {
+        // private readonly DataManager dataManager;
         public App()
         {
-            // Optionally, force loading the data on startup
-            //var items = DataManager.Items;
-            data = DataManager.LoadData();
-
+            ItemData = DataManager.LoadData();
+            UserData = UserDataManager.LoadData();
         }
-
-
-
-        public DataManager data { get;  set; }
-
-
-
+        public DataManager ItemData { get;  set; }
+        public UserDataManager UserData { get; set; }
     }
 }
