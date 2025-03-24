@@ -30,7 +30,7 @@
 
         <!-- Search and Sorting Panel -->
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,0,0,10">
-            <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox Text="{Binding ItemData.SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
                      Width="200" Height="30" Margin="5"/>
 
             <TextBlock Text="Sort by:" VerticalAlignment="Center" Margin="10,0,5,0"/>

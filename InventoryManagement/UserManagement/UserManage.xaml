@@ -30,7 +30,7 @@
 
         <!-- Users DataGrid -->
         <DataGrid Name="UserGrid" 
-                  ItemsSource="{Binding Users}" 
+                  ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False"
                   Grid.Column="0" Grid.ColumnSpan="4"
                   Margin="0,0,10,0"

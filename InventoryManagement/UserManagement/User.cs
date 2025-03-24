@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InventoryManagement
+﻿namespace InventoryManagement.UserManagement
 {
-    public enum UserRole 
+    public enum UserRole // Define the user roles
     {
-        Admin, Staff
+        Admin, Staff 
     }
-    public class User: BaseViewModel
+    public class User: BaseViewModel // User class
     {
         private string _username;
         public string Username
@@ -19,8 +13,8 @@ namespace InventoryManagement
             {
                 if (_username != value)
                 {
-                    _username = value;
-                    OnPropertyChanged(nameof(Username));
+                    _username = value; // Set the username
+                    OnPropertyChanged(nameof(Username)); // Notify the UI that the property has changed
                 }
             }
         }
@@ -38,7 +32,7 @@ namespace InventoryManagement
         }
         
         private UserRole _role { get; set; }
-        public UserRole Role { get => _role; set
+        public UserRole Role { get => _role; set // Define the user role property
             {
                 if (_role != value)
                 {

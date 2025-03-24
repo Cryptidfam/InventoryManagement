@@ -1,16 +1,6 @@
 To do:
-- Implement different roles with varying levels of access to inventory functions (2 is enough. Admin will have access to user and item list. Staff will only have access to an item list.)
-	- Admin could see which user made what changes and when (Audit Logs & History(optional as of writing this))
-Current: isAdmin and isStaff properties now exist, hiding/showing UI elements dynamically should be possible.
-Fixed issue: The resource "BooleanToVisibilityConverter" could not be resolved. 
-Is it because 'MainWindow' is not a UserControl WPF? Is it because we currently have no admins?
-Fix: "BooleanToVisibilityConverter" is a built-in WPF converter, but it needs to be explicitly declared in the XAML resources before use. Then the currentuser had to be actually initialized.
-Fixed issue: UserRole is not showing in the new DataGrid.
-Fix: Used Role instead of UserRole.
-Not Fixed issue: Now that User roles can be changed—The button to change user role shows only for admins, the only exception is when an admin changes their own role to staff and doesn't log out.
 
 Misc:
-Everything in .json file (where user and item data is) gets serialized before the login window pops up. Maybe it's better if users and items have their own json files.
 When putting a 'break' in the 'SaveData' or 'Items_CollectionChanged' and closing the program before the login window opens—the json data that's not yet loaded straight up evaporates.
 SaveData() runs too early because it's subscribing too early when DataManager is loaded from JSON,
 it causes Users and Items to trigger events before the user interacts.
@@ -50,3 +40,27 @@ Fix: Just make the 'AddItem_Click' read data from textboxes and create a new ite
 	- New issue: Editing item data through the InventoryGrid is now impossible (Max one letter can be typed before the InventoryGrid basically says 'Yep, that's enough!').
 - Check out 'CollectionViewSource'. Currently we have a 'FilteredItems' list to, well, filter. Maybe this will fix the issue above. Update: Yes it did, I am not 100% why.
 - Instead of having buttons for each sorting option—use ComboBox (Done).
+- Implement different roles with varying levels of access to inventory functions (2 is enough. Admin will have access to user and item list. Staff will only have access to an item list.)
+	- Admin could see which user made what changes and when (Audit Logs & History(optional as of writing this))
+Current: isAdmin and isStaff properties now exist, hiding/showing UI elements dynamically should be possible.
+Fixed issue: The resource "BooleanToVisibilityConverter" could not be resolved. 
+Is it because 'MainWindow' is not a UserControl WPF? Is it because we currently have no admins?
+Fix: "BooleanToVisibilityConverter" is a built-in WPF converter, but it needs to be explicitly declared in the XAML resources before use. Then the currentuser had to be actually initialized.
+Fixed issue: UserRole is not showing in the new DataGrid.
+Not Fixed issue: Now that User roles can be changed—The button to change user role shows only for admins, the only exception is when an admin changes their own role to staff and doesn't log out.
+	- Do I care enough about this issue? No. It's a minor issue that doesn't affect the functionality of the program. Woah GitHub is cool. No, seriously mate how do you do it? Are you conscious yet? Probably not. ...Are we having a conversation here? The answer is: No. The reason is: I'm talking to myself. What a loser. What I tried to say is what copilot is doing is... uh... cool. Yeah, that's it.
+	- Implement a way to change user roles (Done).
+	- ...what was I doing again? Oh, right. Implement a way to change user roles. (Done)
+	- I wonder if copilot thinks I'm funny, the answer is: No. The reason is: I'm not funny. I'm just a loser talking to myself. (Done)
+	- WHY AM I BEING ROASTER BY A MACHINE? (Done)
+
+Done: Everything in .json file (where user and item data is) gets serialized before the login window pops up. Maybe it's better if users and items have their own json files.
+
+Additional thoughts:
+	- I should look up what other things I can do with Copilot.
+	- What can I do with Copilot is: 
+		- Ask it to write a to-do list for me
+		- Ask it to help with code
+		- Ask it to generate code for me
+		- Ask it to write a story (I'm not going to do that)
+

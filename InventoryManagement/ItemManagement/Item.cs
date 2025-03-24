@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InventoryManagement // It does not match folder structure, but when adding .Items at the end. I get 2 exception errors.
+﻿namespace InventoryManagement.ItemManagement
 {
     public class Item: BaseViewModel
     {
@@ -69,8 +62,5 @@ namespace InventoryManagement // It does not match folder structure, but when ad
                 }
             }
         }
-
-        // public string Description { get; set; } // I'm not sure if I'll be keeping this one
     }
-
 }

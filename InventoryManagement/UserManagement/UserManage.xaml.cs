@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using InventoryManagement.UserManagement;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace InventoryManagement

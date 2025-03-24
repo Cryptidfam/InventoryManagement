@@ -1,15 +1,5 @@
-﻿using InventoryManagement.Management;
+﻿using InventoryManagement.ItemManagement;
 using InventoryManagement.UserManagement;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace InventoryManagement
@@ -17,15 +7,14 @@ namespace InventoryManagement
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application // It's supposed to act like a singleton class
     {
-        // private readonly DataManager dataManager;
         public App()
         {
-            ItemData = DataManager.LoadData();
+            ItemData = ItemDataManager.LoadData(); 
             UserData = UserDataManager.LoadData();
         }
-        public DataManager ItemData { get;  set; }
-        public UserDataManager UserData { get; set; }
+        public ItemDataManager ItemData { get;  set; } // Create a new instance of ItemDataManager
+        public UserDataManager UserData { get; set; } // Create a new instance of UserDataManager
     }
 }
